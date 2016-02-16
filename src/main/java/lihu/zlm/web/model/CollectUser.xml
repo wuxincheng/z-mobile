@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CollectUser">
+  <typeAlias alias="CollectUser" type="lihu.zlm.web.model.CollectUser" />
+
+  <resultMap class="CollectUser" id="CollectUserMapping">
+    <result property="collectid" column="collectid" />
+    <result property="userid" column="userid" />
+    <result property="fundCode" column="fundcode" />
+    <result property="createTime" column="createtime" />
+    <result property="collectState" column="collectstate" />
+  </resultMap>
+
+  <insert id="insert" parameterClass="CollectUser">
+    INSERT INTO 
+      t_next_collectuser(collectid, fundcode, userid, createtime, collectstate)
+    VALUES (#collectid#, #fundCode#, #userid#, #createTime#, #collectState#)
+  </insert>
+  
+  <delete id="delete" parameterClass="CollectUser">
+    DELETE FROM t_next_collectuser WHERE userid = #userid# AND collectid = #collectid#
+  </delete>
+  
+  <select id="query" parameterClass="CollectUser" resultMap="CollectUserMapping">
+    SELECT * FROM t_next_collectuser WHERE userid = #userid# AND collectid = #collectid#
+  </select>
+  
+  <select id="queryCollects" resultMap="CollectUserMapping" parameterClass="java.lang.String">
+    SELECT * FROM t_next_collectuser WHERE userid = #userid# AND collectid is not null
+  </select>
+  
+  <delete id="deleteByFundCode" parameterClass="CollectUser">
+    DELETE FROM t_next_collectuser WHERE userid = #userid# AND fundcode = #fundCode#
+  </delete>
+  
+  <select id="queryByFundCode" parameterClass="CollectUser" resultMap="CollectUserMapping">
+    SELECT * FROM t_next_collectuser WHERE userid = #userid# AND fundcode = #fundCode#
+  </select>
+  
+</sqlMap>

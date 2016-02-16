@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="User">
+  <typeAlias alias="User" type="lihu.zlm.web.model.User" />
+
+  <resultMap class="User" id="UserMapping">
+    <result property="userid" column="userid" />
+    <result property="nickName" column="nickname" />
+    <result property="password" column="password" />
+    <result property="loginEmail" column="loginemail" />
+    <result property="picPath" column="picpath" />
+    <result property="socialPicPath" column="socialpicpath" />
+    <result property="memo" column="memo" />
+    <result property="userGroup" column="usergroup" />
+    <result property="position" column="position" />
+    <result property="userState" column="userstate" />
+    <result property="collectPermission" column="collectpermission" />
+    <result property="accessToken" column="accesstoken" />
+    <result property="tokenExpireIn" column="tokenexpirein" />
+    <result property="openid" column="openid" />
+    <result property="loginType" column="logintype" />
+    <result property="sex" column="sex" />
+  </resultMap>
+  
+  <select id="queryByUserid" parameterClass="java.lang.String" resultMap="UserMapping">
+    SELECT t.* FROM t_next_user t WHERE t.userid = #userid#
+  </select>
+
+  <select id="queryByLoginEmail" parameterClass="java.lang.String" resultMap="UserMapping">
+    SELECT t.* FROM t_next_user t WHERE t.loginemail = #loginEmail#
+  </select>
+  
+  <select id="queryByOAuthOpenid" parameterClass="java.lang.String" resultMap="UserMapping">
+    SELECT t.* FROM t_next_user t WHERE t.openid = #openid#
+  </select>
+
+  <insert id="register" parameterClass="User">
+    INSERT INTO 
+      t_next_user(
+        nickname, password, loginemail, 
+        picpath, socialpicpath,  memo, 
+        usergroup, position, userstate,
+        collectpermission,
+        accesstoken, tokenexpirein,
+        openid, logintype, sex)
+    VALUES (
+        #nickName#, #password#, #loginEmail#, 
+        #picPath#, #socialPicPath#, #memo#, 
+        #userGroup#, #position#, #userState#,
+        #collectPermission#,
+        #accessToken#, #tokenExpireIn#,
+        #openid#, #loginType#, #sex#)
+  </insert>
+  
+  <update id="updateInfo" parameterClass="User">
+    UPDATE t_next_user 
+        SET nickname = #nickName#, 
+        picpath = #picPath#, 
+        socialpicpath = #socialPicPath#, 
+        memo = #memo#, 
+        usergroup = #userGroup#, 
+        position = #position#, 
+        userstate = #userState#,
+        accesstoken = #accessToken#,
+        tokenexpirein = #tokenExpireIn#,
+        openid = #openid#,
+        logintype = #loginType#
+    WHERE userid = #userid# 
+  </update>
+  
+  <update id="changePassword" parameterClass="User">
+    UPDATE t_next_user SET password = #password# WHERE userid = #userid#
+  </update>
+
+</sqlMap>

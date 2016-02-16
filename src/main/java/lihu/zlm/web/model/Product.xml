@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Product">
+  <typeAlias alias="Product" type="lihu.zlm.web.model.Product" />
+
+  <!-- 产品完整的详细信息 -->
+  <resultMap class="Product" id="ProductDetailMapping">
+    <!-- 产品信息 -->
+    <result property="prodid" column="prodid" />
+    <result property="prodName" column="prodname" />
+    <result property="prodUrl" column="produrl" />
+    <result property="fundName" column="fundname" />
+    <result property="fundCode" column="fundcode" />
+    <result property="memo" column="memo" />
+    <result property="likeSum" column="likesum" />
+    <result property="commentSum" column="commentsum" />
+    <result property="prodState" column="prodstate" />
+    <result property="postDate" column="postdate" />
+    <result property="postDateTime" column="postdatetime" />
+    <result property="userid" column="userid" />
+    <result property="collectid" column="collectid" />
+    <result property="score" column="score" />
+    
+    <!-- 发布该产品用户的信息 -->
+    <result property="nickName" column="nickname" />
+    <result property="loginEmail" column="loginemail" />
+    <result property="picPath" column="picpath" />
+    <result property="socialPicPath" column="socialpicpath" />
+    <result property="userMemo" column="usermemo" />
+    <result property="userGroup" column="usergroup" />
+    <result property="position" column="position" />
+    
+    <!-- 用户赞 -->
+    <result property="likeState" column="likestate" />
+  </resultMap>
+
+  <!-- 产品信息 -->
+  <resultMap class="Product" id="ProductMapping">
+    <result property="prodid" column="prodid" />
+    <result property="prodName" column="prodname" />
+    <result property="prodUrl" column="produrl" />
+    <result property="fundName" column="fundname" />
+    <result property="fundCode" column="fundcode" />
+    <result property="memo" column="memo" />
+    <result property="likeSum" column="likesum" />
+    <result property="commentSum" column="commentsum" />
+    <result property="prodState" column="prodstate" />
+    <result property="postDate" column="postdate" />
+    <result property="postDateTime" column="postdatetime" />
+    <result property="userid" column="userid" />
+    <result property="collectid" column="collectid" />
+    <result property="score" column="score" />
+  </resultMap>
+
+  <select id="queryPostByUserid" parameterClass="java.lang.String" resultMap="ProductMapping">
+    SELECT t.* FROM t_next_product t 
+     WHERE t.userid = #userid# AND fundcode IS NOT NULL ORDER BY t.postdatetime DESC
+  </select>
+
+  <select id="queryLikeByUserid" parameterClass="java.lang.String" resultMap="ProductDetailMapping">
+    SELECT t.*, 
+           u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+           u.memo AS usermemo, u.usergroup, u.position, p.likestate 
+      FROM t_next_product t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+      LEFT JOIN t_next_prodlike p ON t.prodid = p.prodid
+     WHERE p.userid = #userid# AND t.fundcode IS NOT NULL ORDER BY t.postdatetime DESC
+  </select>
+  
+  <select id="queryDetailByProdid" parameterClass="java.util.Map" resultMap="ProductDetailMapping">
+    SELECT t.*, 
+           u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+           u.memo AS usermemo, u.usergroup, u.position, p.likestate 
+      FROM t_next_product t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+      LEFT JOIN (SELECT * FROM t_next_prodlike WHERE userid = #userid# AND fundcode IS NOT NULL)p
+        ON t.prodid = p.prodid
+     WHERE t.prodid = #prodid# AND t.fundcode IS NOT NULL
+  </select>
+  
+  <!-- 登录用户查询其它用户赞过这个用户产品的列表 -->
+  <select id="queryUserMain" parameterClass="java.util.Map" resultMap="ProductDetailMapping">
+    SELECT d.*, l.likestate
+    FROM (
+        SELECT  p.prodid, p.prodname, p.produrl, p.memo, p.likesum, p.commentsum, p.prodstate, 
+                p.postdate, p.postdatetime, p.collectid, p.score, p.nickname, p.loginemail, p.fundcode, p.fundname,
+                p.picpath, p.socialpicpath, p.usermemo AS usermemo, p.usergroup, p.position, p.userid
+        FROM t_next_prodlike t
+            LEFT JOIN ( 
+                 SELECT t.*, u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+                       u.memo AS usermemo, u.usergroup, u.position 
+                  FROM t_next_product t 
+                  LEFT JOIN t_next_user u ON t.userid = u.userid
+                  WHERE t.fundcode IS NOT NULL
+            ) p ON t.prodid = p.prodid
+        WHERE t.userid = #queryUserid# AND t.fundcode IS NOT NULL ) d
+    LEFT JOIN (
+         SELECT t.* FROM t_next_prodlike t WHERE t.userid = #sessionUserid# AND t.fundcode IS NOT NULL
+    ) l ON d.prodid = l.prodid
+  </select>
+  
+  <select id="queryCollectProductUser" parameterClass="java.util.Map" resultMap="ProductDetailMapping">
+    SELECT t1.*, '' nickname, '' loginemail, '' picpath, '' socialpicpath, '' usermemo, 
+		 '' usergroup, '' position, t2.userid as likestate 
+    FROM t_next_product t1 
+    LEFT OUTER JOIN t_next_collectuser t2 ON t1.fundcode = t2.fundcode AND t2.userid = #userid#
+    WHERE t1.collectid = #collectid# 
+  </select>
+  
+  <select id="queryByPostDate" resultMap="ProductDetailMapping" parameterClass="java.util.Map">
+    SELECT t.*, 
+           u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+           u.memo AS usermemo, u.usergroup, u.position, p.likestate 
+      FROM t_next_product t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+      LEFT JOIN (SELECT * FROM t_next_prodlike WHERE userid = #userid# AND fundcode IS NOT NULL)p
+        ON t.prodid = p.prodid
+     WHERE t.postdate = #queryPostDate# AND t.fundcode IS NOT NULL
+     ORDER BY t.postDateTime DESC
+  </select>
+  
+  <select id="queryGroupByDate" resultClass="java.lang.String">
+    SELECT t.postdate FROM t_next_product t GROUP BY t.postdate ORDER BY t.postdate DESC
+  </select>
+
+  <insert id="post" parameterClass="Product">
+    INSERT INTO 
+      t_next_product(
+        prodname, produrl, memo, likesum, commentsum, fundname, fundcode,
+        prodstate, postdate, postdatetime, userid, collectid, score)
+    VALUES (
+        #prodName#, #prodUrl#, #memo#, #likeSum#, #commentSum#, #fundName#, #fundCode#, 
+        #prodState#, #postDate#, #postDateTime#, #userid#, #collectid#, #score#)
+  </insert>
+  
+  <update id="plusCommentSum" parameterClass="java.lang.String">
+    UPDATE t_next_product SET commentsum=commentsum+1 WHERE prodid = #prodid#
+  </update>
+
+  <select id="queryProductsByCollectid" resultMap="ProductDetailMapping" parameterClass="java.util.Map">
+    SELECT t.*, 
+           u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+           u.memo AS usermemo, u.usergroup, u.position, p.likestate 
+      FROM t_next_product t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+      LEFT JOIN (SELECT * FROM t_next_prodlike WHERE userid = #userid# AND fundcode IS NOT NULL)p
+        ON t.prodid = p.prodid
+     WHERE t.collectid = #collectid# AND t.fundcode IS NOT NULL
+     ORDER BY t.postDateTime DESC
+  </select>
+  
+  <update id="score" parameterClass="java.util.Map">
+    UPDATE t_next_product SET score=(score+#score#) WHERE prodid = #prodid#
+  </update>
+  
+  <update id="postLikeScore" parameterClass="java.util.Map">
+    UPDATE t_next_product SET likesum=(likesum+#likeSum#), score=(score+#score#) WHERE prodid = #prodid#
+  </update>
+  
+  <delete id="remove" parameterClass="java.util.Map">
+    DELETE FROM t_next_product WHERE collectid = #collectid# AND prodid=#prodid#
+  </delete>
+  
+</sqlMap>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Advisor">
+  <typeAlias alias="Advisor" type="lihu.zlm.web.model.Advisor" />
+
+  <resultMap class="Advisor" id="AdvisorMapping">
+    <result property="userid" column="userid" />
+    <result property="nickName" column="nickname" />
+    <result property="loginEmail" column="loginemail" />
+    <result property="picPath" column="picpath" />
+    <result property="socialPicPath" column="socialpicpath" />
+    <result property="memo" column="memo" />
+    <result property="userGroup" column="usergroup" />
+    <result property="position" column="position" />
+    <result property="userState" column="userstate" />
+    <result property="sex" column="sex" />
+    <result property="collectSum" column="collectsum" />
+  </resultMap>
+  
+  <select id="queryTopHot" resultMap="AdvisorMapping" parameterClass="java.lang.Integer">
+    SELECT n.collectsum, u.userid, u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+            u.memo, u.usergroup, u.position, u.userstate, u.sex 
+    FROM (
+      SELECT userid, COUNT(*) collectsum FROM t_next_collect GROUP BY userid
+    ) n LEFT JOIN t_next_user u ON n.userid=u.userid 
+    ORDER BY n.collectsum DESC LIMIT 0, #topLimit#
+  </select>
+  
+</sqlMap>

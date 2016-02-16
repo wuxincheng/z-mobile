@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+	"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+  
+<sqlMapConfig>
+  <settings useStatementNamespaces="true" />
+
+  <!-- 实体表 -->
+  <sqlMap resource="lihu/zlm/web/model/Product.xml" />
+  <sqlMap resource="lihu/zlm/web/model/Comment.xml" />
+  <sqlMap resource="lihu/zlm/web/model/Collect.xml" />
+  <sqlMap resource="lihu/zlm/web/model/User.xml" />
+  <sqlMap resource="lihu/zlm/web/model/Advisor.xml" />
+  <sqlMap resource="lihu/zlm/web/model/Task.xml" />
+  <sqlMap resource="lihu/zlm/web/model/FundMarket.xml" />
+  
+  <!-- 关联表 -->
+  <sqlMap resource="lihu/zlm/web/model/ProdLike.xml" />
+  <sqlMap resource="lihu/zlm/web/model/CollectUser.xml" />
+
+</sqlMapConfig>

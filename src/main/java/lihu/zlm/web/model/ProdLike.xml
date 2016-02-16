@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ProdLike">
+  <typeAlias alias="ProdLike" type="lihu.zlm.web.model.ProdLike" />
+
+  <resultMap class="ProdLike" id="ProdLikeMapping">
+    <result property="userid" column="userid" />
+    <result property="prodid" column="prodid" />
+    <result property="fundCode" column="fundcode" />
+    <result property="collectid" column="collectid" />
+    <result property="likeTime" column="liketime" />
+    <result property="likeState" column="likestate" />
+    <result property="likeType" column="liketype" />
+  </resultMap>
+  
+  <resultMap class="ProdLike" id="ProdLikeUserDetailMapping">
+    <result property="userid" column="userid" />
+    <result property="prodid" column="prodid" />
+    <result property="fundCode" column="fundcode" />
+    <result property="collectid" column="collectid" />
+    <result property="likeTime" column="liketime" />
+    <result property="likeState" column="likestate" />
+    <result property="likeType" column="liketype" />
+    
+    <!-- 用户信息 -->
+    <result property="nickName" column="nickname" />
+    <result property="socialPicPath" column="socialpicpath" />
+    <result property="picPath" column="picpath" />
+    <result property="memo" column="memo" />
+    <result property="userGroup" column="usergroup" />
+    <result property="position" column="position" />
+    <result property="sex" column="sex" />
+  </resultMap>
+
+  <insert id="insert" parameterClass="ProdLike">
+    INSERT INTO 
+      t_next_prodlike(userid, prodid, fundcode, collectid, liketime, likestate, liketype)
+    VALUES (#userid#, #prodid#, #fundCode#, #collectid#, #likeTime#, #likeState#, #likeType#)
+  </insert>
+  
+  <delete id="delete" parameterClass="ProdLike">
+    DELETE FROM t_next_prodlike WHERE userid=#userid# AND prodid=#prodid#
+  </delete>
+  
+  <delete id="deleteFundLike" parameterClass="ProdLike">
+    DELETE FROM t_next_prodlike WHERE userid=#userid# AND fundcode=#fundCode#
+  </delete>
+
+  <delete id="deleteCollectLike" parameterClass="ProdLike">
+    DELETE FROM t_next_prodlike WHERE userid=#userid# AND collectid=#collectid#
+  </delete>
+  
+  <select id="query" parameterClass="ProdLike" resultMap="ProdLikeMapping">
+    SELECT * FROM t_next_prodlike WHERE userid=#userid# AND prodid=#prodid# AND fundcode IS NOT NULL
+  </select>
+  
+  <select id="queryByUserid" parameterClass="java.lang.String" resultMap="ProdLikeMapping">
+    SELECT * FROM t_next_prodlike WHERE userid=#userid# AND fundcode IS NOT NULL
+  </select>
+  
+  <select id="queryDetailByFundCode" parameterClass="java.util.Map" resultMap="ProdLikeMapping">
+    SELECT * FROM t_next_prodlike WHERE userid=#userid# AND fundcode=#fundCode#
+  </select>
+  
+  <select id="queryDetailByCollectid" parameterClass="java.util.Map" resultMap="ProdLikeMapping">
+    SELECT * FROM t_next_prodlike WHERE userid=#userid# AND collectid=#collectid#
+  </select>
+  
+  <select id="queryLikeUserDetail" parameterClass="java.lang.String" resultMap="ProdLikeUserDetailMapping">
+    SELECT t.*, u.nickname, u.socialpicpath, u.memo, u.usergroup, u.position, u.sex, u.picpath 
+      FROM t_next_prodlike t LEFT JOIN t_next_user u ON t.userid=u.userid 
+     WHERE prodid=#prodid# AND t.fundcode IS NOT NULL
+  </select>
+  
+  <update id="updateFundMarketLike" parameterClass="java.util.Map">
+    UPDATE t_next_prodlike SET likestate=#likeState# WHERE userid=#userid# AND fundcode=#fundCode#
+  </update>
+
+  <update id="updateCollectLike" parameterClass="java.util.Map">
+    UPDATE t_next_prodlike SET likestate=#likeState# WHERE userid=#userid# AND collectid=#collectid#
+  </update>
+  
+</sqlMap>

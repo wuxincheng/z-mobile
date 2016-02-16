@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="FundMarket">
+  <typeAlias alias="FundMarket" type="lihu.zlm.web.model.FundMarket" />
+
+  <resultMap class="FundMarket" id="FundMarketMapping">
+    <result property="marketDate" column="marketdate" />
+    <result property="fundName" column="fundname" />
+    <result property="fundCode" column="fundcode" />
+    <result property="fundTACode" column="fundtacode" />
+    <result property="fundCompany" column="fundcompany" />
+    <result property="fundType" column="fundtype" />
+    <result property="foundedDate" column="foundeddate" />
+    <result property="fundRiskLevel" column="fundrisklevel" />
+    <result property="fundManager" column="fundmanager" />
+    <result property="currentNav" column="currentnav" />
+    <result property="currentState" column="currentstate" />
+    <result property="fundIncome" column="fundincome" />
+    <result property="fundIncomeRate" column="fundincomerate" />
+    <result property="navDate" column="navdate" />
+    <result property="totalNav" column="totalnav" />
+    <result property="fundRiseWeek" column="fundriseweek" />
+    <result property="fundRiseMonth" column="fundrisemonth" />
+    <result property="fundRiseThreeMonth" column="fundrisethreemonth" />
+    <result property="fundRiseHalfYear" column="fundrisehalfyear" />
+    <result property="fundRiseYear" column="fundriseyear" />
+    <result property="fundRiseThisYear" column="fundrisethisyear" />
+    <result property="newScale" column="newscale" />
+    <result property="rateChange" column="ratechange" />
+    <result property="fundSortThreeMonth" column="fundsortthreemonth" />
+    <result property="fundTotalThreeMonth" column="fundtotalthreemonth" />
+    <result property="createTime" column="createtime" />
+    <result property="updateTime" column="updatetime" />
+    <result property="likeSum" column="likesum" />
+    <result property="likeScore" column="likescore" />
+    <result property="unLikeSum" column="unlikesum" />
+    <result property="unLikeScore" column="unlikescore" />
+    <result property="commentSum" column="commentsum" />
+    <result property="focusSum" column="focussum" />
+    <result property="focusScore" column="focusscore" />
+  </resultMap>
+  
+  <insert id="insert" parameterClass="FundMarket">
+    INSERT INTO TFundMarket (
+      marketdate, 
+      fundname, 
+      fundcode, 
+      fundtacode, 
+      fundcompany, 
+      fundtype, 
+      foundeddate, 
+      fundrisklevel, 
+      fundmanager, 
+      currentnav, 
+      currentstate, 
+      fundincome, 
+      fundincomerate, 
+      navdate, 
+      totalnav, 
+      fundriseweek, 
+      fundrisemonth, 
+      fundrisethreemonth, 
+      fundrisehalfyear, 
+      fundriseyear, 
+      fundrisethisyear, 
+      newscale, 
+      ratechange, 
+      fundsortthreemonth, 
+      fundtotalthreemonth, 
+      createtime, 
+      updatetime,
+      likesum,
+      likescore,
+      unlikesum,
+      unlikescore,
+      commentsum,
+      focussum,
+      focusscore)
+    VALUES (
+      #marketDate#, 
+      #fundName#, 
+      #fundCode#, 
+      #fundTACode#, 
+      #fundCompany#, 
+      #fundType#, 
+      #foundedDate#, 
+      #fundRiskLevel#, 
+      #fundManager#, 
+      #currentNav#, 
+      #currentState#, 
+      #fundIncome#, 
+      #fundIncomeRate#, 
+      #navDate#, 
+      #totalNav#, 
+      #fundRiseWeek#, 
+      #fundRiseMonth#, 
+      #fundRiseThreeMonth#, 
+      #fundRiseHalfYear#, 
+      #fundRiseYear#, 
+      #fundRiseThisYear#, 
+      #newScale#, 
+      #rateChange#, 
+      #fundSortThreeMonth#, 
+      #fundTotalThreeMonth#, 
+      #createTime#, 
+      #updateTime#,
+      #likeSum#,
+      #likeScore#,
+      #unLikeSum#,
+      #unLikeScore#,
+      #commentSum#,
+      #focusSum#,
+      #focusScore#
+    )
+  </insert>
+  
+  <update id="update" parameterClass="FundMarket">
+    UPDATE TFundMarket SET 
+      marketdate=#marketDate#, 
+      fundname=#fundName#, 
+      fundtacode=#fundTACode#, 
+      fundcompany=#fundCompany#, 
+      fundtype=#fundType#, 
+      foundeddate=#foundedDate#, 
+      fundrisklevel=#fundRiskLevel#, 
+      fundmanager=#fundManager#, 
+      currentnav=#currentNav#, 
+      fundincome=#fundIncome#, 
+      fundincomerate=#fundIncomeRate#, 
+      navdate=#navDate#, 
+      totalnav=#totalNav#, 
+      fundriseweek=#fundRiseWeek#, 
+      fundrisemonth=#fundRiseMonth#, 
+      fundrisethreemonth=#fundRiseThreeMonth#, 
+      fundrisehalfyear=#fundRiseHalfYear#, 
+      fundriseyear=#fundRiseYear#, 
+      fundrisethisyear=#fundRiseThisYear#, 
+      newscale=#newScale#, ratechange=#rateChange#, 
+      fundsortthreemonth=#fundSortThreeMonth#, 
+      fundtotalthreemonth=#fundTotalThreeMonth#, 
+      updatetime=#updateTime#
+    WHERE fundcode=#fundCode#
+  </update>
+  
+  <select id="queryDetail" resultMap="FundMarketMapping" parameterClass="java.lang.String">
+    SELECT * FROM TFundMarket WHERE fundcode=#fundCode#
+  </select>
+  
+  <select id="queryPager" resultMap="FundMarketMapping" parameterClass="java.util.Map">
+    SELECT * FROM TFundMarket 
+    WHERE fundtype != '5' AND navdate IS NOT NULL OR currentnav IS NOT NULL
+    ORDER BY likescore DESC, unlikescore DESC, likeSum DESC, unlikesum DESC 
+    LIMIT #start#, #end#
+  </select>
+  
+  <select id="queryAll" resultMap="FundMarketMapping">
+    SELECT * FROM TFundMarket 
+    WHERE fundtype != '5' AND navdate IS NOT NULL OR currentnav IS NOT NULL
+    ORDER BY likescore DESC, unlikescore DESC, likeSum DESC, unlikesum DESC 
+  </select>
+
+  <select id="queryTopRedMarkets" resultMap="FundMarketMapping">
+    SELECT * FROM TFundMarket WHERE fundtype != '5' 
+    ORDER BY likescore DESC, likeSum DESC
+    LIMIT 0, 5
+  </select>
+
+  <select id="queryTopGreenMarkets" resultMap="FundMarketMapping">
+    SELECT * FROM TFundMarket WHERE fundtype != '5' 
+    ORDER BY unlikescore DESC, unlikesum DESC 
+    LIMIT 0, 5
+  </select>
+  
+  <select id="queryAllNull" resultMap="FundMarketMapping">
+    SELECT * FROM TFundMarket WHERE fundtype != '5' AND fundManager IS NULL
+  </select>
+  
+  <select id="queryCount" resultClass="java.lang.Integer">
+    SELECT COUNT(*) AS totalCount FROM TFundMarket WHERE fundtype != '5' 
+  </select>
+  
+  <update id="plusCommentSum" parameterClass="java.lang.String">
+    UPDATE TFundMarket SET commentsum=commentsum+1 WHERE fundcode = #fundCode#
+  </update>
+  
+  <update id="likeScore" parameterClass="java.util.Map">
+    UPDATE TFundMarket SET likescore=(likescore+#likeScore#) WHERE fundcode = #fundCode#
+  </update>
+  
+  <update id="updateLikeInfo" parameterClass="java.util.Map">
+    UPDATE TFundMarket 
+       SET likescore=(likescore+#likeScore#), 
+           likesum=(likesum+#likeSum#) 
+     WHERE fundcode = #fundCode#
+  </update>
+
+  <update id="updateUnLikeInfo" parameterClass="java.util.Map">
+    UPDATE TFundMarket 
+       SET unlikescore=(unlikescore+#unLikeScore#), 
+           unlikesum=(unlikesum+#unLikeSum#) 
+     WHERE fundcode = #fundCode#
+  </update>
+  
+  <update id="updateFocusInfo" parameterClass="java.util.Map">
+    UPDATE TFundMarket 
+       SET focusscore=(focusscore+#focusScore#), 
+           focussum=(focussum+#focusSum#) 
+     WHERE fundcode = #fundCode#
+  </update>
+  
+</sqlMap>

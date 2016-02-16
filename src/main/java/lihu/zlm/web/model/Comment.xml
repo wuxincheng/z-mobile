@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Comment">
+  <typeAlias alias="Comment" type="lihu.zlm.web.model.Comment" />
+
+  <resultMap class="Comment" id="CommentDetailMapping">
+    <!-- 评论信息 -->
+    <result property="commentid" column="commentid" />
+    <result property="commentRefid" column="commentrefid" />
+    <result property="productid" column="productid" />
+    <result property="collectid" column="collectid" />
+    <result property="fundCode" column="fundcode" />
+    <result property="userid" column="userid" />
+    <result property="content" column="content" />
+    <result property="createTime" column="createtime" />
+    <result property="commentState" column="commentstate" />
+    <result property="likeSum" column="likesum" />
+    <result property="replySum" column="replysum" />
+    <result property="commentType" column="commenttype" />
+    
+    <!-- 发表该评论用户的信息 -->
+    <result property="nickName" column="nickname" />
+    <result property="loginEmail" column="loginemail" />
+    <result property="picPath" column="picpath" />
+    <result property="socialPicPath" column="socialpicpath" />
+    <result property="userMemo" column="usermemo" />
+    <result property="userGroup" column="usergroup" />
+    <result property="position" column="position" />    
+  </resultMap>
+
+  <resultMap class="Comment" id="CommentMapping">
+    <result property="commentid" column="commentid" />
+    <result property="commentRefid" column="commentrefid" />
+    <result property="productid" column="productid" />
+    <result property="collectid" column="collectid" />
+    <result property="fundCode" column="fundcode" />
+    <result property="userid" column="userid" />
+    <result property="content" column="content" />
+    <result property="createTime" column="createtime" />
+    <result property="commentState" column="commentstate" />
+    <result property="likeSum" column="likesum" />
+    <result property="replySum" column="replysum" />
+    <result property="commentType" column="commenttype" />
+  </resultMap>
+  
+  <select id="queryByProductid" resultMap="CommentDetailMapping" parameterClass="java.lang.String">
+    SELECT 
+      t.commentid, t.commentrefid, t.productid, t.userid, t.content, t.collectid,
+      t.commentstate, t.likesum, t.replysum, t.fundcode, t.commenttype, 
+      DATE_FORMAT(t.createtime,'%Y-%m-%d %H:%i:%S') AS createtime,
+      u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+      u.memo AS usermemo, u.usergroup, u.position
+    FROM t_next_comment t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+    WHERE t.productid = #productid# 
+    ORDER BY t.createTime DESC
+  </select>
+
+  <select id="queryByFundCode" resultMap="CommentDetailMapping" parameterClass="java.lang.String">
+    SELECT 
+      t.commentid, t.commentrefid, t.productid, t.userid, t.content, t.collectid, 
+      t.commentstate, t.likesum, t.replysum, t.fundcode, t.commenttype, 
+      DATE_FORMAT(t.createtime,'%Y-%m-%d %H:%i:%S') AS createtime,
+      u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+      u.memo AS usermemo, u.usergroup, u.position
+    FROM t_next_comment t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+    WHERE t.fundcode = #fundCode# 
+    ORDER BY t.createTime DESC
+  </select>
+  
+  <select id="queryByCollectid" resultMap="CommentDetailMapping" parameterClass="java.lang.String">
+    SELECT 
+      t.commentid, t.commentrefid, t.productid, t.userid, t.content, t.collectid,
+      t.commentstate, t.likesum, t.replysum, t.fundcode, t.commenttype, 
+      DATE_FORMAT(t.createtime,'%Y-%m-%d %H:%i:%S') AS createtime,
+      u.nickname, u.loginemail, u.picpath, u.socialpicpath, 
+      u.memo AS usermemo, u.usergroup, u.position
+    FROM t_next_comment t 
+      LEFT JOIN t_next_user u ON t.userid = u.userid
+    WHERE t.collectid = #collectid# 
+    ORDER BY t.createTime DESC
+  </select>
+
+  <insert id="post" parameterClass="Comment">
+    INSERT INTO 
+      t_next_comment(
+        productid, collectid, fundcode, userid, content, createtime, 
+        commentstate, likesum, replysum, commenttype)
+    VALUES (
+        #productid#, #collectid#, #fundCode#, #userid#, #content#, CURRENT_TIMESTAMP, 
+        #commentState#, #likeSum#, #replySum#, #commentType#)
+  </insert>
+
+</sqlMap>

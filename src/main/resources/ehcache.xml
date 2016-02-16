@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true" monitoring="autodetect">
+  <diskStore path="java.io.tmpdir" />
+  <defaultCache maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300"
+    timeToLiveSeconds="300" overflowToDisk="true" />
+  <cache name="mobileSterm" maxElementsInMemory="100000" eternal="false" timeToIdleSeconds="300"
+    timeToLiveSeconds="300" overflowToDisk="true" />
+  <cache name="mobileMterm" maxElementsInMemory="100000" eternal="false" timeToIdleSeconds="1800"
+    timeToLiveSeconds="1800" overflowToDisk="true" />
+  <cache name="mobileIterm" maxElementsInMemory="100000" eternal="false" timeToIdleSeconds="3600"
+    timeToLiveSeconds="3600" overflowToDisk="true" />
+</ehcache>

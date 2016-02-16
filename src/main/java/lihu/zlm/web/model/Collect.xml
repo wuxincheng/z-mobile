@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Collect">
+  <typeAlias alias="Collect" type="lihu.zlm.web.model.Collect" />
+
+  <resultMap class="Collect" id="CollectMapping">
+    <result property="collectid" column="collectid" />
+    <result property="collectName" column="collectname" />
+    <result property="coverImgPath" column="coverimgpath" />
+    <result property="bgColor" column="bgcolor" />
+    <result property="userid" column="userid" />
+    <result property="productSum" column="productsum" />
+    <result property="collectSum" column="collectsum" />
+    <result property="memo" column="memo" />
+    <result property="recommend" column="recommend" />
+    <result property="updateState" column="updatestate" />
+    <result property="updateTime" column="updatetime" />
+    <result property="createTime" column="createtime" />
+    <result property="collectState" column="collectstate" />
+    <result property="likeSum" column="likesum" />
+    <result property="likeScore" column="likescore" />
+    <result property="unLikeSum" column="unlikesum" />
+    <result property="unLikeScore" column="unlikescore" />
+    <result property="commentSum" column="commentsum" />
+    <result property="detailContent" column="detailcontent" />
+  </resultMap>
+  
+  <resultMap class="Collect" id="CollectDetailMapping">
+    <result property="collectid" column="collectid" />
+    <result property="collectName" column="collectname" />
+    <result property="coverImgPath" column="coverimgpath" />
+    <result property="bgColor" column="bgcolor" />
+    <result property="userid" column="userid" />
+    <result property="productSum" column="productsum" />
+    <result property="collectSum" column="collectsum" />
+    <result property="memo" column="memo" />
+    <result property="recommend" column="recommend" />
+    <result property="updateState" column="updatestate" />
+    <result property="updateTime" column="updatetime" />
+    <result property="createTime" column="createtime" />
+    <result property="collectState" column="collectstate" />
+    <result property="likeSum" column="likesum" />
+    <result property="likeScore" column="likescore" />
+    <result property="unLikeSum" column="unlikesum" />
+    <result property="unLikeScore" column="unlikescore" />
+    <result property="commentSum" column="commentsum" />
+    <result property="detailContent" column="detailcontent" />
+    <result property="nickName" column="nickname" />
+  </resultMap>
+  
+  <select id="queryAll" resultMap="CollectDetailMapping">
+    SELECT c.*, u.nickname FROM t_next_collect c 
+      LEFT JOIN t_next_user u ON c.userid = u.userid
+    ORDER BY updatetime DESC
+  </select>
+  
+  <select id="queryTopHot" resultMap="CollectDetailMapping" parameterClass="java.lang.Integer">
+    SELECT c.*, u.nickname FROM t_next_collect c 
+      LEFT JOIN t_next_user u ON c.userid = u.userid
+    ORDER BY (c.productsum+c.collectsum) DESC LIMIT 0, #topLimit#
+  </select>
+  
+  <select id="queryByUserid" parameterClass="java.lang.String" resultMap="CollectMapping">
+    SELECT t.* 
+      FROM t_next_collect t 
+     WHERE t.userid = #userid#
+  </select>
+  
+  <insert id="create" parameterClass="Collect">
+    INSERT INTO 
+      t_next_collect( collectname, coverimgpath, bgcolor, userid, productsum, collectsum, 
+        memo, recommend, updatestate, updatetime, createtime, collectstate, 
+        likesum, likescore, unlikesum, unlikescore, commentsum, detailcontent)
+    VALUES ( #collectName#, #coverImgPath#, #bgColor#, #userid#, 
+        #productSum#, #collectSum#, #memo#, 
+        #recommend#, #updateState#, #updateTime#, #createTime#, #collectState#,
+        #likeSum#, #likeScore#, #unLikeSum#, #unLikeScore#, #commentSum#, #detailContent#)
+  </insert>
+  
+  <update id="update" parameterClass="Collect">
+    UPDATE t_next_collect 
+       SET collectname = #collectName#, coverimgpath = #coverImgPath#, 
+           bgcolor = #bgColor#, memo = #memo#, recommend = #recommend#, 
+           updatetime=#updateTime#, detailcontent=#detailContent# 
+     WHERE collectid = #collectid#
+  </update>
+
+  <select id="queryDetailByCollectid" parameterClass="java.lang.String" resultMap="CollectMapping">
+    SELECT t.* 
+      FROM t_next_collect t 
+     WHERE t.collectid = #collectid#
+  </select>
+  
+  <update id="addProductSum" parameterClass="java.lang.String">
+    UPDATE t_next_collect SET productsum = (productsum+1) WHERE collectid = #collectid#
+  </update>
+  
+  <update id="removeProductSum" parameterClass="java.lang.String">
+    UPDATE t_next_collect SET productsum = (productsum-1) WHERE collectid = #collectid#
+  </update>
+  
+  <update id="addCollectSum" parameterClass="java.lang.String">
+    UPDATE t_next_collect SET collectsum = (collectsum+1) WHERE collectid = #collectid#
+  </update>
+  
+  <update id="cutCollectSum" parameterClass="java.lang.String">
+    UPDATE t_next_collect SET collectsum = (collectsum-1) WHERE collectid = #collectid# AND collectsum &gt; 0
+  </update>
+  
+  <delete id="delete" parameterClass="java.lang.String">
+    DELETE FROM t_next_collect WHERE collectid = #collectid#
+  </delete>
+  
+  <update id="plusCommentSum" parameterClass="java.lang.String">
+    UPDATE t_next_collect SET commentsum=commentsum+1 WHERE collectid = #collectid#
+  </update>
+  
+  <update id="likeScore" parameterClass="java.util.Map">
+    UPDATE t_next_collect SET likescore=(likescore+#likeScore#) WHERE collectid = #collectid#
+  </update>
+  
+  <update id="updateLikeInfo" parameterClass="java.util.Map">
+    UPDATE t_next_collect 
+       SET likescore=(likescore+#likeScore#), 
+           likesum=(likesum+#likeSum#) 
+     WHERE collectid = #collectid#
+  </update>
+
+  <update id="updateUnLikeInfo" parameterClass="java.util.Map">
+    UPDATE t_next_collect 
+       SET unlikescore=(unlikescore+#unLikeScore#), 
+           unlikesum=(unlikesum+#unLikeSum#) 
+     WHERE collectid = #collectid#
+  </update>
+  
+</sqlMap>
