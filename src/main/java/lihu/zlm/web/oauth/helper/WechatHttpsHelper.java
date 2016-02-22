@@ -27,6 +27,26 @@ public class WechatHttpsHelper {
 
 	@Resource
 	WechatConfig wechatConfig;
+	
+	public String getOAuthInnerURI(String sessionid){
+		logger.info("根据sessionid获取微信内部授权地址 sessionid={}", sessionid);
+		
+		// 微信登录后返回的地址URLEncoder
+		String redirectURLEncoder = null;
+		try {
+			redirectURLEncoder = URLEncoder.encode(wechatConfig.getRedirectUrl(), "UTF-8");
+			logger.debug("URLEncoder后的返回地址 redirectURLEncoder={}", redirectURLEncoder);
+		} catch (UnsupportedEncodingException e) {
+			logger.error("URLEncoder返回地址异常", e);
+		}
+
+		// 微信授权登录页面
+		String wechatOAuthUrl = wechatConfig.getWechatOAuthorize().replaceAll("APPID", wechatConfig.getAppid())
+				.replaceAll("REDIRECT_URI", redirectURLEncoder).replaceAll("STATE", sessionid);
+		logger.info("微信授权登录地址 wechatOAuthUrl={}", wechatOAuthUrl);
+
+		return wechatOAuthUrl;
+	}
 
 	/**
 	 * 根据sessionid获取微信登录地址
@@ -49,7 +69,7 @@ public class WechatHttpsHelper {
 		// 微信授权登录页面
 		String wechatOAuthUrl = wechatConfig.getWechatOAuthUrl().replaceAll("APPID", wechatConfig.getAppid())
 				.replaceAll("REDIRECT_URI", redirectURLEncoder).replaceAll("STATE", sessionid);
-		// logger.info("微信授权登录地址 wechatOAuthUrl={}", wechatOAuthUrl);
+		logger.info("微信授权登录地址 wechatOAuthUrl={}", wechatOAuthUrl);
 
 		return wechatOAuthUrl;
 	}

@@ -22,6 +22,8 @@
   href="${root}/assets/css/app.min.1.css" />
 <link type="text/css" rel="stylesheet"
   href="${root}/assets/css/app.min.2.css" />
+<link type="text/css" rel="stylesheet" 
+  href="${root}/assets/css/style.css" />  
 </head>
 
 <body class="login-content">
@@ -53,6 +55,12 @@
       </a>
     </div>
     </form>
+    <hr>
+    <div>
+      <a href="${root}/login/wechat">
+      <button class="btn btn-wechat" type="button">微信登录</button>
+      </a>
+    </div>
   </div>
 
   <script type="text/javascript"

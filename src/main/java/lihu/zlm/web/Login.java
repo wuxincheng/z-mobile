@@ -76,5 +76,20 @@ public class Login extends BaseController {
 
 		return result.redirect("/collect/list");
 	}
+	
+	@RequestMapping(value = "/wechat")
+	public String loginWechat(Model model, HttpServletRequest request) {
+		logger.info("显示微信扫描二维码授权页面");
+		// 获取微信登录二维码地址
+		String sessionid = request.getSession().getId();
+		logger.debug("获取用户浏览器Session sessionid={}", sessionid);
+		
+		String wechatOAuthJSURI = wechatHttpsHelper.getOAuthLoginURI(sessionid);
+		logger.debug("登录二维码地址 wechatOAuthJSURI={}", wechatOAuthJSURI);
+		
+		model.addAttribute("wechatOAuthJSURI", wechatOAuthJSURI);
+		
+		return "login/wechat";
+	}
 
 }

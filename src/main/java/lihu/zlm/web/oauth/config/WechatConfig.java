@@ -24,6 +24,10 @@ public class WechatConfig {
 	@Value("#{wechatSettings.scope}")
 	private String scope;
 
+	/** 微信内部授权页面 */
+	@Value("#{wechatSettings.wechatOAuthorize}")
+	private String wechatOAuthorize;
+
 	/** 微信授权登录页面 */
 	@Value("#{wechatSettings.wechatOAuthUrl}")
 	private String wechatOAuthUrl;
@@ -74,6 +78,14 @@ public class WechatConfig {
 
 	public void setScope(String scope) {
 		this.scope = scope;
+	}
+
+	public String getWechatOAuthorize() {
+		return wechatOAuthorize;
+	}
+
+	public void setWechatOAuthorize(String wechatOAuthorize) {
+		this.wechatOAuthorize = wechatOAuthorize;
 	}
 
 	public String getWechatOAuthUrl() {
