@@ -18,6 +18,7 @@ import lihu.zlm.web.model.User;
 import lihu.zlm.web.oauth.helper.WechatHttpsHelper;
 import lihu.zlm.web.service.UserService;
 import lihu.zlm.util.Constants;
+import lihu.zlm.util.MapFormatUtil;
 
 /**
  * 微信登录验证
@@ -56,7 +57,7 @@ public class WechatLoginController {
 			logger.error("连接登录微信异常", e);
 		}
 	}
-	
+
 	/**
 	 * 跳转到微信内部授权页面
 	 */
@@ -95,10 +96,8 @@ public class WechatLoginController {
 
 		// 验证state参数
 		/*
-		if (!request.getSession().getId().equals(state)) {
-			logger.error("授权失败，不合法的Session");
-			return "redirect:/index";
-		}
+		 * if (!request.getSession().getId().equals(state)) {
+		 * logger.error("授权失败，不合法的Session"); return "redirect:/index"; }
 		 */
 
 		String code = request.getParameter("code");
@@ -119,23 +118,26 @@ public class WechatLoginController {
 		}
 
 		logger.debug("开始获取用户个人信息");
-		Map<String, Object> responseUserInfoMap = wechatHttpsHelper.getUserInfoUnionID(responseMap.get("access_token")
-				.toString(), responseMap.get("openid").toString());
+		Map<String, Object> responseUserInfoMap = wechatHttpsHelper.getUserInfoUnionID(
+				MapFormatUtil.getString(responseMap, "access_token"),
+				MapFormatUtil.getString(responseMap, "openid"));
 
 		logger.info("个人信息获取成功 responseUserInfoMap={}", responseUserInfoMap);
 
+		logger.info("开始保存用户数据");
 		// 保存用户数据
 		User oauthUser = new User();
-		oauthUser.setNickName(responseUserInfoMap.get("nickname").toString());
-		oauthUser.setSocialPicPath(responseUserInfoMap.get("headimgurl").toString());
-		oauthUser.setAccessToken(responseMap.get("access_token").toString());
+		oauthUser.setNickName(MapFormatUtil.getString(responseUserInfoMap, "nickname"));
+		oauthUser.setSocialPicPath(MapFormatUtil.getString(responseUserInfoMap, "headimgurl"));
+		oauthUser.setAccessToken(MapFormatUtil.getString(responseMap, "access_token"));
 		oauthUser.setTokenExpireIn(code);
-		oauthUser.setOpenid(responseUserInfoMap.get("openid").toString());
+		oauthUser.setOpenid(MapFormatUtil.getString(responseUserInfoMap, "openid"));
 		oauthUser.setLoginType(Constants.OAUTH_WECHAT);
+		oauthUser.setUnionid(MapFormatUtil.getString(responseUserInfoMap, "unionid"));
+		oauthUser.setSex(MapFormatUtil.getInt(responseUserInfoMap, "sex")+"");
+		logger.info("保存数据已封装");
 		checkAndProcessOAuthUser(oauthUser, request);
 
-		model.addAttribute(Constants.MSG_SUCCESS, "微信授权登录成功");
-		
 		logger.info("微信授权登录成功");
 
 		return "redirect:/index";
@@ -146,8 +148,8 @@ public class WechatLoginController {
 	 */
 	private void checkAndProcessOAuthUser(User oauthUser, HttpServletRequest request) {
 		// 验证是否已经在库中有记录，如果有记录更新，没记录新增
+		logger.info("验证用户");
 		User checkUser = userService.validateOAuthUser(oauthUser);
-		logger.debug("验证用户");
 
 		// 用户信息放入在Session中
 		request.getSession().setAttribute(Constants.CURRENT_USER, checkUser);

@@ -20,6 +20,7 @@
     <result property="openid" column="openid" />
     <result property="loginType" column="logintype" />
     <result property="sex" column="sex" />
+    <result property="unionid" column="unionid" />
   </resultMap>
   
   <select id="queryByUserid" parameterClass="java.lang.String" resultMap="UserMapping">
@@ -42,14 +43,14 @@
         usergroup, position, userstate,
         collectpermission,
         accesstoken, tokenexpirein,
-        openid, logintype, sex)
+        openid, logintype, sex, unionid)
     VALUES (
         #nickName#, #password#, #loginEmail#, 
         #picPath#, #socialPicPath#, #memo#, 
         #userGroup#, #position#, #userState#,
         #collectPermission#,
         #accessToken#, #tokenExpireIn#,
-        #openid#, #loginType#, #sex#)
+        #openid#, #loginType#, #sex#, #unionid#)
   </insert>
   
   <update id="updateInfo" parameterClass="User">
@@ -64,7 +65,9 @@
         accesstoken = #accessToken#,
         tokenexpirein = #tokenExpireIn#,
         openid = #openid#,
-        logintype = #loginType#
+        logintype = #loginType#,
+        unionid = #unionid#,
+        sex=#sex#
     WHERE userid = #userid# 
   </update>
   

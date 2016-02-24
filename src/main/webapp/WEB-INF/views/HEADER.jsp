@@ -92,13 +92,13 @@ $(document).ready(function(){
       <c:if test="${not empty user}">
       <div class="profile-menu">
         <a href="">
-          <c:if test="${not empty socialPicPath}">
+          <c:if test="${not empty user.socialPicPath}">
           <div class="profile-pic">
             <img src="${user.socialPicPath}" />
           </div>
           </c:if>
           
-          <c:if test="${empty socialPicPath}">
+          <c:if test="${empty user.socialPicPath}">
           <div class="profile-pic">
             <img src="${root}/assets/img/profile-pics/4.jpg" />
           </div>
