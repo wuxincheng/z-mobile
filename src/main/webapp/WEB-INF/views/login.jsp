@@ -57,7 +57,7 @@
     </form>
     <hr>
     <div>
-      <a href="${root}/login/wechat">
+      <a href="${root}/mobile/oauth/wechat/login/self">
       <button class="btn btn-wechat" type="button">微信登录</button>
       </a>
     </div>

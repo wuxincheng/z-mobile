@@ -27,7 +27,7 @@ import lihu.zlm.util.Constants;
  * 
  */
 @Controller
-@RequestMapping("/top/oauth/wechat")
+@RequestMapping("/mobile/oauth/wechat")
 public class WechatLoginController {
 	private static final Logger logger = LoggerFactory.getLogger(WechatLoginController.class);
 
@@ -89,22 +89,24 @@ public class WechatLoginController {
 		logger.info("返回数据 state(sessionid)={}", state);
 
 		if (StringUtils.isEmpty(state)) {
-			model.addAttribute(Constants.MSG_WARN, "授权失败，Session为空");
+			logger.error("授权失败，Session为空");
 			return "redirect:/index";
 		}
 
 		// 验证state参数
+		/*
 		if (!request.getSession().getId().equals(state)) {
-			model.addAttribute(Constants.MSG_WARN, "授权失败，不合法的Session");
+			logger.error("授权失败，不合法的Session");
 			return "redirect:/index";
 		}
+		 */
 
 		String code = request.getParameter("code");
 		logger.info("返回数据 code={}", code);
 
 		// 若用户禁止授权，则重定向后不会带上code参数，仅会带上state参数
 		if (StringUtils.isEmpty(code)) {
-			model.addAttribute(Constants.MSG_WARN, "您取消了微信登录操作");
+			logger.error("授权失败，取消了微信登录操作");
 			return "redirect:/index";
 		}
 
@@ -133,6 +135,8 @@ public class WechatLoginController {
 		checkAndProcessOAuthUser(oauthUser, request);
 
 		model.addAttribute(Constants.MSG_SUCCESS, "微信授权登录成功");
+		
+		logger.info("微信授权登录成功");
 
 		return "redirect:/index";
 	}

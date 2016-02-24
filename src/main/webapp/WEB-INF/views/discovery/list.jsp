@@ -30,7 +30,7 @@
         <div class="card-header">
           <div class="media">
             <div class="pull-left">
-              <img class="lv-img" src="${root}/assets/img/profile-pics/1.jpg" alt=""/>
+              <img class="lv-img" src="${root}/assets/img/profile-pics/profile-pic.jpg" alt=""/>
             </div>
             <div class="media-body m-t-5">
               <h2>

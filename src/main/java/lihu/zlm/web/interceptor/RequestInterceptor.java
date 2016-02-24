@@ -38,7 +38,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 		// String remoteAddress = request.getRemoteAddr();
 
 		if (!(mappingURL == null || url.matches(mappingURL))) {
-			logger.info("mappingURL={}", mappingURL);
+			logger.debug("mappingURL={}", mappingURL);
 		}
 
 		String requestIp = url.substring(url.indexOf("//") + 2, url.length());

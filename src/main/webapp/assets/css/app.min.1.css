@@ -10101,7 +10101,7 @@ h6 small,
 
 @media (min-width: 1200px) {
   body.sw-toggled #content {
-    padding-left: 268px;
+    padding-left: 189px;
   }
 }
 
@@ -10695,7 +10695,7 @@ h6 small,
 }
 
 #sidebar {
-  width: 268px;
+  width: 189px;
   -webkit-transform: translate3d(-268px, 0, 0);
   transform: translate3d(-268px, 0, 0);
 }
@@ -10715,7 +10715,7 @@ h6 small,
 }
 
 .profile-menu > a .profile-pic {
-  padding: 12px;
+  padding: 25px 12px;
 }
 
 .profile-menu > a .profile-pic > img {
@@ -10730,7 +10730,7 @@ h6 small,
   background: rgba(0, 0, 0, 0.37);
   padding: 7px 14px;
   color: #fff;
-  margin-top: 20px;
+  margin-top: -6px;
   position: relative;
 }
 

@@ -43,7 +43,7 @@ public class WechatHttpsHelper {
 		// 微信授权登录页面
 		String wechatOAuthUrl = wechatConfig.getWechatOAuthorize().replaceAll("APPID", wechatConfig.getAppid())
 				.replaceAll("REDIRECT_URI", redirectURLEncoder).replaceAll("STATE", sessionid);
-		logger.info("微信授权登录地址 wechatOAuthUrl={}", wechatOAuthUrl);
+		logger.debug("微信授权登录地址 wechatOAuthUrl={}", wechatOAuthUrl);
 
 		return wechatOAuthUrl;
 	}

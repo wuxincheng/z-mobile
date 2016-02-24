@@ -53,7 +53,7 @@
         <div class="card-header">
           <div class="media">
             <div class="pull-left">
-              <img class="lv-img" src="${root}/assets/img/profile-pics/1.jpg" alt=""/>
+              <img class="lv-img" src="${root}/assets/img/profile-pics/profile-pic.jpg" alt=""/>
             </div>
             <div class="media-body m-t-5">
               <h2>
@@ -108,6 +108,9 @@
                 <small class="lv-small"></small>
 
                 <ul class="lv-attrs">
+                  <li>净值日期：${fundMarket.navDate}</li>
+                  <li>单位净值：${fundMarket.currentNav}</li>
+                  <li>涨跌幅：${fundMarket.rateChange}</li>
                   <li>最新规模：${fundMarket.newScale}亿</li>
                   <li>成立日期：${fundMarket.foundedDate}</li>
                   <li>基金经理：${fund:huntHigh(fundMarket.fundManager, keyword)}</li>

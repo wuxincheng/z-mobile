@@ -38,6 +38,13 @@
 
 <!--iOS -->
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#unlogin-panel').click(function(e) {  
+    window.location.href = '${root}/login/';
+  });
+});
+</script>
 </head>
 <body>
   <header id="header" class="clearfix" data-current-skin="blue">
@@ -82,11 +89,20 @@
 
   <section id="main" data-layout="layout-1">
     <aside id="sidebar" class="sidebar c-overflow">
+      <c:if test="${not empty user}">
       <div class="profile-menu">
         <a href="">
+          <c:if test="${not empty socialPicPath}">
           <div class="profile-pic">
-            <img src="${root}/assets/img/profile-pics/profile-pic-2.jpg" alt=""/>
+            <img src="${user.socialPicPath}" />
           </div>
+          </c:if>
+          
+          <c:if test="${empty socialPicPath}">
+          <div class="profile-pic">
+            <img src="${root}/assets/img/profile-pics/4.jpg" />
+          </div>
+          </c:if>
 
           <div class="profile-info">
             ${user.nickName} <i class="zmdi zmdi-caret-down"></i>
@@ -97,18 +113,30 @@
           <li><a href="${root}/logout/"><i class="zmdi zmdi-time-restore"></i>退出系统</a></li>
         </ul>
       </div>
+      </c:if>
+      
+      <c:if test="${empty user}">
+      <div class="profile-menu" id="unlogin-panel">
+        <a href="">
+          <div class="profile-pic">
+            <img src="${root}/assets/img/unlogin.png" />
+          </div>
+          <div class="profile-info">未登录</div>
+        </a>
+      </div>
+      </c:if>
 
       <ul class="main-menu">
         <li><a href="${root}/collect/list"><i
-            class="zmdi zmdi-home"></i> 首页</a></li>
+            class="zmdi zmdi-home"></i> 首 页</a></li>
         <li><a href="${root}/discovery/list"><i
-            class="zmdi zmdi-eye"></i> 发现</a></li>
+            class="zmdi zmdi-eye"></i> 发 现</a></li>
         <li><a href="${root}/my/collect/list"><i
-            class="zmdi zmdi-view-list"></i> 关注</a></li>
+            class="zmdi zmdi-view-list"></i> 关 注</a></li>
         <li><a href="${root}/collect/list"><i
-            class="zmdi zmdi-notifications"></i> 通知</a></li>
+            class="zmdi zmdi-notifications"></i> 通 知</a></li>
         <li><a href=""><i
-            class="zmdi zmdi-info"></i>关于</a></li>
+            class="zmdi zmdi-info"></i>关 于</a></li>
       </ul>
     </aside>
     
