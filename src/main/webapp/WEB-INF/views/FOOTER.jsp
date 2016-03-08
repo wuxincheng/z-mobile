@@ -36,6 +36,7 @@
   </div>
 
   <!-- Javascript Libraries -->
+  <!-- 
   <script type="text/javascript" src="${root}/assets/vendor/components/flot/jquery.flot.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/flot/jquery.flot.resize.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/flot.curvedlines/curvedLines.js"></script>
@@ -48,6 +49,7 @@
   <script type="text/javascript" src="${root}/assets/vendor/bootstrap-growl/bootstrap-growl.min.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+   -->
 
   <!-- 
   <script type="text/javascript" src="${root}/assets/js/flot-charts/curved-line-chart.js"></script>
@@ -56,7 +58,9 @@
    -->
   
   <script type="text/javascript" src="${root}/assets/js/functions.js"></script>
+  <!-- 
   <script type="text/javascript" src="${root}/assets/js/demo.js"></script>
+   -->
 
   <!-- 百度分享 -->
   <script>

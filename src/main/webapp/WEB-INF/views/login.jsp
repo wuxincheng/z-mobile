@@ -48,7 +48,7 @@
         </div>
     </div>
     
-    <div>
+    <div style="text-align: left; padding-left: 42px;">
       <button class="btn btn-primary" type="button" onclick="doSubmit();">登录</button>
       <a href="${root}/register/">
       <button class="btn btn-default" type="button">注册</button>
@@ -56,9 +56,10 @@
     </div>
     </form>
     <hr>
-    <div>
+    <div style="text-align: left; padding-left: 42px;">
+      <span>第三方授权登录：</span>
       <a href="${root}/mobile/oauth/wechat/login/self">
-      <button class="btn btn-wechat" type="button">微信登录</button>
+      <img alt="" src="${root}/assets/img/social/icon32_wx_logo.png" style="height: 23px; width: 23px;" />
       </a>
     </div>
   </div>
