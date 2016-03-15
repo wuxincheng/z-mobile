@@ -23,6 +23,7 @@
     <result property="unLikeScore" column="unlikescore" />
     <result property="commentSum" column="commentsum" />
     <result property="detailContent" column="detailcontent" />
+    <result property="manulFlag" column="manulflag" />
   </resultMap>
   
   <resultMap class="Collect" id="CollectDetailMapping">
@@ -46,6 +47,7 @@
     <result property="commentSum" column="commentsum" />
     <result property="detailContent" column="detailcontent" />
     <result property="nickName" column="nickname" />
+    <result property="manulFlag" column="manulflag" />
   </resultMap>
   
   <select id="queryAll" resultMap="CollectDetailMapping">
@@ -70,11 +72,11 @@
     INSERT INTO 
       t_next_collect( collectname, coverimgpath, bgcolor, userid, productsum, collectsum, 
         memo, recommend, updatestate, updatetime, createtime, collectstate, 
-        likesum, likescore, unlikesum, unlikescore, commentsum, detailcontent)
+        likesum, likescore, unlikesum, unlikescore, commentsum, detailcontent, manulflag)
     VALUES ( #collectName#, #coverImgPath#, #bgColor#, #userid#, 
         #productSum#, #collectSum#, #memo#, 
         #recommend#, #updateState#, #updateTime#, #createTime#, #collectState#,
-        #likeSum#, #likeScore#, #unLikeSum#, #unLikeScore#, #commentSum#, #detailContent#)
+        #likeSum#, #likeScore#, #unLikeSum#, #unLikeScore#, #commentSum#, #detailContent#, #manulFlag#)
   </insert>
   
   <update id="update" parameterClass="Collect">

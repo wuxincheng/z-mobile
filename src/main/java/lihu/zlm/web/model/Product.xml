@@ -21,6 +21,15 @@
     <result property="collectid" column="collectid" />
     <result property="score" column="score" />
     
+    <!-- 新增字段 start -->
+    <result property="latestPrice" column="latestprice" />
+    <result property="changePercent" column="changepercent" />
+    <result property="costPrice" column="costprice" />
+    <result property="profitLossRat" column="profitlossrat" />
+    <result property="positionPercent" column="positionpercent" />
+    <result property="manulFlag" column="manulflag" />
+    <!-- 新增字段 end -->
+    
     <!-- 发布该产品用户的信息 -->
     <result property="nickName" column="nickname" />
     <result property="loginEmail" column="loginemail" />
@@ -50,6 +59,15 @@
     <result property="userid" column="userid" />
     <result property="collectid" column="collectid" />
     <result property="score" column="score" />
+    
+    <!-- 新增字段 start -->
+    <result property="latestPrice" column="latestprice" />
+    <result property="changePercent" column="changepercent" />
+    <result property="costPrice" column="costprice" />
+    <result property="profitLossRat" column="profitlossrat" />
+    <result property="positionPercent" column="positionpercent" />
+    <result property="manulFlag" column="manulflag" />
+    <!-- 新增字段 end -->
   </resultMap>
 
   <select id="queryPostByUserid" parameterClass="java.lang.String" resultMap="ProductMapping">

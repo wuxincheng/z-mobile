@@ -119,10 +119,14 @@ public class CollectController extends BaseController {
 		queryMap.put("collectid", collectid);
 		queryMap.put("userid", userid);
 		List<Product> products = productService.queryProductsByCollectid(queryMap);
-
-		// 关联查询所有基金信息
-		List<FundMarket> fundMarkets = fundMarketService.queryByProducts(products);
-		request.setAttribute("fundMarkets", fundMarkets);
+		
+		if (StringUtils.isBlank(collect.getManulFlag())) {
+			// 关联查询所有基金信息
+			List<FundMarket> fundMarkets = fundMarketService.queryByProducts(products);
+			request.setAttribute("fundMarkets", fundMarkets);
+		} else {
+			request.setAttribute("products", products);
+		}
 
 		// 查询这个榜单的所有评论
 		List<Comment> comments = commentService.queryByCollectid(collectid);

@@ -79,6 +79,11 @@ public class Collect implements Serializable {
 	/** 创建用户信息 */
 	private String nickName;
 
+	/** 新增字段 start */
+	/** 手动录入 */
+	private String manulFlag;
+	/** 新增字段 end */
+
 	public Collect() {
 	}
 
@@ -256,6 +261,14 @@ public class Collect implements Serializable {
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public String getManulFlag() {
+		return manulFlag;
+	}
+
+	public void setManulFlag(String manulFlag) {
+		this.manulFlag = manulFlag;
 	}
 
 }

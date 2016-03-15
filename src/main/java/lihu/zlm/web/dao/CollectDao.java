@@ -22,10 +22,6 @@ public class CollectDao extends BaseDao {
 		return this.getSqlMapClientTemplate().queryForList("Collect.queryAll");
 	}
 
-	public void create(Collect collect) {
-		this.getSqlMapClientTemplate().update("Collect.create", collect);
-	}
-
 	public Collect queryDetailByCollectid(String collectid) {
 		return (Collect) this.getSqlMapClientTemplate().queryForObject("Collect.queryDetailByCollectid", collectid);
 	}

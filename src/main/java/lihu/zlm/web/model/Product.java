@@ -21,7 +21,7 @@ public class Product implements Serializable {
 
 	/** 产品管网 */
 	private String prodUrl;
-	
+
 	/** 基金名称 */
 	private String fundName;
 	/** 基金代码 */
@@ -53,6 +53,21 @@ public class Product implements Serializable {
 	/** 产品关注度 */
 	private String score;
 
+	// ====== 新增字段 start ======
+	/** 最新价 */
+	private String latestPrice;
+	/** 涨跌幅 */
+	private String changePercent;
+	/** 成本价 */
+	private String costPrice;
+	/** 盈亏比例 */
+	private String profitLossRat;
+	/** 仓位 */
+	private String positionPercent;
+	/** 手动录入数据标志 */
+	private String manulFlag;
+	// ====== 新增字段 end ======
+
 	// ===== 用户信息 =====
 	private String nickName;
 
@@ -67,7 +82,7 @@ public class Product implements Serializable {
 	private String userGroup;
 
 	private String position;
-	
+
 	// ====== 用户赞 ======
 	private String likeState;
 
@@ -75,12 +90,12 @@ public class Product implements Serializable {
 	public int hashCode() {
 		return super.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}
-	
+
 	public String getProdid() {
 		return prodid;
 	}
@@ -155,6 +170,54 @@ public class Product implements Serializable {
 
 	public String getUserid() {
 		return userid;
+	}
+
+	public String getLatestPrice() {
+		return latestPrice;
+	}
+
+	public void setLatestPrice(String latestPrice) {
+		this.latestPrice = latestPrice;
+	}
+
+	public String getChangePercent() {
+		return changePercent;
+	}
+
+	public void setChangePercent(String changePercent) {
+		this.changePercent = changePercent;
+	}
+
+	public String getCostPrice() {
+		return costPrice;
+	}
+
+	public void setCostPrice(String costPrice) {
+		this.costPrice = costPrice;
+	}
+
+	public String getProfitLossRat() {
+		return profitLossRat;
+	}
+
+	public void setProfitLossRat(String profitLossRat) {
+		this.profitLossRat = profitLossRat;
+	}
+
+	public String getPositionPercent() {
+		return positionPercent;
+	}
+
+	public void setPositionPercent(String positionPercent) {
+		this.positionPercent = positionPercent;
+	}
+
+	public String getManulFlag() {
+		return manulFlag;
+	}
+
+	public void setManulFlag(String manulFlag) {
+		this.manulFlag = manulFlag;
 	}
 
 	public void setUserid(String userid) {

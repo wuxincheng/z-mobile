@@ -45,11 +45,13 @@
   <script type="text/javascript" src="${root}/assets/vendor/components/moment/min/moment.min.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/fullcalendar/dist/fullcalendar.min.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/simpleWeather/jquery.simpleWeather.min.js"></script>
-  <script type="text/javascript" src="${root}/assets/vendor/components/Waves/dist/waves.min.js"></script>
+  
   <script type="text/javascript" src="${root}/assets/vendor/bootstrap-growl/bootstrap-growl.min.js"></script>
   <script type="text/javascript" src="${root}/assets/vendor/components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
-  <script type="text/javascript" src="${root}/assets/vendor/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
    -->
+  
+  <script type="text/javascript" src="${root}/assets/vendor/components/Waves/dist/waves.min.js"></script>
+  <script type="text/javascript" src="${root}/assets/vendor/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
   <!-- 
   <script type="text/javascript" src="${root}/assets/js/flot-charts/curved-line-chart.js"></script>
